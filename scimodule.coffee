@@ -55,9 +55,9 @@ onGetLatestOrders = (req, res) ->
     response = {}
     try
         for pair in req.body.assetPairs
-            response[pair] = {}
-            response[pair].sellStack = data.getSellStack(pair)
-            response[pair].buyStack = data.getBuyStack(pair)
+            sellStack = data.getSellStack(pair)
+            buyStack = data.getBuyStack(pair)
+            if sellStack? and buyStack? then response[pair] = {sellStack, buyStack}
         res.send(response)
     catch err
         log "Error in onGetLatestOrders!"
