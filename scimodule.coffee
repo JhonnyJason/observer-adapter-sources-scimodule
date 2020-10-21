@@ -54,8 +54,6 @@ onGetLatestOrders = (req, res) ->
     log "onGetLatestOrders"
     response = {}
     try
-        res.send("hello!")
-        return
         for pair in req.body.assetPairs
             sellStack = data.getSellStack(pair)
             buyStack = data.getBuyStack(pair)
