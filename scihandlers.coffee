@@ -42,7 +42,7 @@ scihandlers.getLatestTickers = (authCode, assetPairs, subscriber) ->
         result[pair] = data.getTicker(pair)
     return result
 
-scihandlers.getLatestBalances = (assets, subscriber) ->
+scihandlers.getLatestBalances = (authCode, assets, subscriber) ->
     result = {}
     for asset in assets
         result[asset] = data.getAssetBalance(asset)
