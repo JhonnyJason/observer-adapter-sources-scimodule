@@ -1,20 +1,15 @@
 
-scihandlers = {name: "scihandlers"}
 ############################################################
-#region printLogFunctions
-log = (arg) ->
-    if allModules.debugmodule.modulesToDebug["scihandlers"]?  then console.log "[scihandlers]: " + arg
-    return
-ostr = (obj) -> JSON.stringify(obj, null, 4)
-olog = (obj) -> log "\n" + ostr(obj)
-print = (arg) -> console.log(arg)
+#region debug
+import { createLogFunctions } from "thingy-debug"
+{log, olog} = createLogFunctions("scihandlers")
 #endregion
 
 ############################################################
-data = require("./datahandlermodule")
+import * as data from "./datahandlermodule.js"
 
 ############################################################
-scihandlers.authenticate = (req, res, next) ->
+export authenticate = (req, res, next) ->
     try
         if req.body.authCode == "deadbeef" then next()
         else throw new Error("Wrong Auth Code!")
@@ -26,7 +21,7 @@ scihandlers.authenticate = (req, res, next) ->
 
 ############################################################
 #region regularOperations
-scihandlers.getLatestOrders = (authCode, assetPairs, subscriber) ->
+export getLatestOrders = (authCode, assetPairs, subscriber) ->
     result = {}
     for pair in assetPairs
         sellStack = data.getSellStack(pair)
@@ -36,13 +31,13 @@ scihandlers.getLatestOrders = (authCode, assetPairs, subscriber) ->
         if sellStack? and buyStack? and cancelledStack? and filledStack? then result[pair] = {sellStack, buyStack, cancelledStack, filledStack}
     return result
 
-scihandlers.getLatestTickers = (authCode, assetPairs, subscriber) ->
+export getLatestTickers = (authCode, assetPairs, subscriber) ->
     result = {}
     for pair in assetPairs
         result[pair] = data.getTicker(pair)
     return result
 
-scihandlers.getLatestBalances = (authCode, assets, subscriber) ->
+export getLatestBalances = (authCode, assets, subscriber) ->
     result = {}
     for asset in assets
         result[asset] = data.getAssetBalance(asset)
@@ -52,54 +47,52 @@ scihandlers.getLatestBalances = (authCode, assets, subscriber) ->
 
 ############################################################
 #region maintenanceOperations
-scihandlers.addRelevantAsset = (authCode, exchangeName, ourName) ->
+export addRelevantAsset = (authCode, exchangeName, ourName) ->
     result = {}
     result.answerTo = "addRelevantAsset"
     return result
 
-scihandlers.removeRelevantAsset = (authCode, ourName) ->
+export removeRelevantAsset = (authCode, ourName) ->
     result = {}
     result.answerTo = "removeRelevantAsset"
     return result
 
-scihandlers.addRelevantAssetPair = (authCode, exchangeName, ourName) ->
+export addRelevantAssetPair = (authCode, exchangeName, ourName) ->
     result = {}
     result.answerTo = "addRelevantAssetPair"
     return result
 
-scihandlers.removeRelevantAssetPair = (authCode, ourName) ->
+export removeRelevantAssetPair = (authCode, ourName) ->
     result = {}
     result.answerTo = "removeRelevantAssetPair"
     return result
 
-scihandlers.getRelevantAssets = (authCode) ->
+export getRelevantAssets = (authCode) ->
     result = {}
     result.answerTo = "getRelevantAssets"
     return result
 
-scihandlers.getRelevantAssetPairs = (authCode) ->
+export getRelevantAssetPairs = (authCode) ->
     result = {}
     result.answerTo = "getRelevantAssetPairs"
     return result
 
-scihandlers.getFailingIdentifiers = (authCode) ->
+export getFailingIdentifiers = (authCode) ->
     result = {}
     result.answerTo = "getFailingIdentifiers"
     return result
 
-scihandlers.getServiceStatus = (authCode) ->
+export getServiceStatus = (authCode) ->
     result = {}
     result.answerTo = "getServiceStatus"
     return result
 
-scihandlers.getNodeId = (authCode) ->
+export getNodeId = (authCode) ->
     result = {}
     result.answerTo = "getNodeId"
     return result
 
 #endregion
 
-
 #endregion exposed functions
 
-export default scihandlers

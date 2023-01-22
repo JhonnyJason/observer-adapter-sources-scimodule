@@ -1,32 +1,24 @@
-
-scimodule = {name: "scimodule"}
 ############################################################
-#region printLogFunctions
-log = (arg) ->
-    if allModules.debugmodule.modulesToDebug["scimodule"]?  then console.log "[scimodule]: " + arg
-    return
-ostr = (obj) -> JSON.stringify(obj, null, 4)
-olog = (obj) -> log "\n" + ostr(obj)
-print = (arg) -> console.log(arg)
+#region debug
+import { createLogFunctions } from "thingy-debug"
+{log, olog} = createLogFunctions("scimodule")
 #endregion
 
 ############################################################
 #region node_modules
-sciBase = require("thingy-sci-base")
-import routes from "./sciroutes"
-import handlers from "./scihandlers"
+import * as sciBase from "thingy-sci-base"
+import * as routes from "./sciroutes.js"
+import * as handlers from "./scihandlers.js"
 
 #endregion
 
 ############################################################
-scimodule.initialize = ->
-    log "scimodule.initialize"
+export initialize = ->
+    log "initialize"
     return
 
 ############################################################
-scimodule.prepareAndExpose = ->
-    log "scimodule.prepareAndExpose"
+export prepareAndExpose = ->
+    log "prepareAndExpose"
     sciBase.prepareAndExpose(handlers.authenticate, routes)
     return
-    
-export default scimodule

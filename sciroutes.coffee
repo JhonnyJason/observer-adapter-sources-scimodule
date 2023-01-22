@@ -1,15 +1,12 @@
-
-sciroutes = {}
-
 ############################################################
-import h from "./scihandlers"
+import * as h from "./scihandlers"
 
 ############################################################
 #region routes
 
 ############################################################
 #region regularOperations
-sciroutes.getLatestOrders = (req, res) ->
+export getLatestOrders = (req, res) ->
     try
         response = await h.getLatestOrders(
             req.body.authCode,
@@ -20,7 +17,7 @@ sciroutes.getLatestOrders = (req, res) ->
     catch err then res.send({error: err.stack})
     return
 
-sciroutes.getLatestTickers = (req, res) ->
+export getLatestTickers = (req, res) ->
     try
         response = await h.getLatestTickers(
             req.body.authCode,
@@ -31,7 +28,7 @@ sciroutes.getLatestTickers = (req, res) ->
     catch err then res.send({error: err.stack})
     return
 
-sciroutes.getLatestBalances = (req, res) ->
+export getLatestBalances = (req, res) ->
     try
         response = await h.getLatestBalances(
             req.body.authCode,
@@ -46,7 +43,7 @@ sciroutes.getLatestBalances = (req, res) ->
 
 ############################################################
 #region maintenanceOperations
-sciroutes.addRelevantAsset = (req, res) ->
+export addRelevantAsset = (req, res) ->
     try
         response = await h.addRelevantAsset(
             req.body.authCode,
@@ -57,7 +54,7 @@ sciroutes.addRelevantAsset = (req, res) ->
     catch err then res.send({error:err.stack})
     return    
 
-sciroutes.removeRelevantAsset = (req, res) ->
+export removeRelevantAsset = (req, res) ->
     try
         response = await h.removeRelevantAsset(
             req.body.authCode,
@@ -67,7 +64,7 @@ sciroutes.removeRelevantAsset = (req, res) ->
     catch err then res.send({error:err.stack})
     return    
 
-sciroutes.addRelevantAssetPair = (req, res) ->
+export addRelevantAssetPair = (req, res) ->
     try
         response = await h.addRelevantAssetPair(
             req.body.authCode,
@@ -78,7 +75,7 @@ sciroutes.addRelevantAssetPair = (req, res) ->
     catch err then res.send({error:err.stack})
     return
 
-sciroutes.removeRelevantAssetPair = (req, res) ->
+export removeRelevantAssetPair = (req, res) ->
     try
         response = await h.removeRelevantAssetPair(
             req.body.authCode,
@@ -88,7 +85,7 @@ sciroutes.removeRelevantAssetPair = (req, res) ->
     catch err then res.send({error:err.stack})
     return
 
-sciroutes.getRelevantAssets = (req, res) ->
+export getRelevantAssets = (req, res) ->
     try
         response = await h.getRelevantAssets(
             req.body.authCode
@@ -97,7 +94,7 @@ sciroutes.getRelevantAssets = (req, res) ->
     catch err then res.send({error:err.stack})
     return
 
-sciroutes.getRelevantAssetPairs = (req, res) ->
+export getRelevantAssetPairs = (req, res) ->
     try
         response = await h.getRelevantAssetPairs(
             req.body.authCode
@@ -106,7 +103,7 @@ sciroutes.getRelevantAssetPairs = (req, res) ->
     catch err then res.send({error:err.stack})
     return
 
-sciroutes.getFailingIdentifiers = (req, res) ->
+export getFailingIdentifiers = (req, res) ->
     try
         response = await h.getFailingIdentifiers(
             req.body.authCode
@@ -115,7 +112,7 @@ sciroutes.getFailingIdentifiers = (req, res) ->
     catch err then res.send({error:err.stack})
     return
 
-sciroutes.getServiceStatus = (req, res) ->
+export getServiceStatus = (req, res) ->
     try
         response = await h.getServiceStatus(
             req.body.authCode
@@ -124,7 +121,7 @@ sciroutes.getServiceStatus = (req, res) ->
     catch err then res.send({error:err.stack})
     return
 
-sciroutes.getNodeId = (req, res) ->
+export getNodeId = (req, res) ->
     try
         response = await h.getNodeId(
             req.body.authCode
@@ -136,5 +133,3 @@ sciroutes.getNodeId = (req, res) ->
 #endregion
 
 #endregion
-
-export default sciroutes
