@@ -1,4 +1,3 @@
-
 ############################################################
 #region debug
 import { createLogFunctions } from "thingy-debug"
@@ -95,4 +94,3 @@ export getNodeId = (authCode) ->
 #endregion
 
 #endregion exposed functions
-
