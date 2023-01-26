@@ -5,20 +5,24 @@ import { createLogFunctions } from "thingy-debug"
 #endregion
 
 ############################################################
-#region node_modules
-import * as sciBase from "thingy-sci-base"
-import * as routes from "./sciroutes.js"
-import * as handlers from "./scihandlers.js"
+#region modules from the Environment
+import * as sciBase from "thingy-sci-ws-base"
+import * as wsi from "./wsimodule.js"
+
+############################################################
+import * as authenticationRoutes from "./authenticationroutes.js"
+import * as observerRoutes from "./observerroutes.js"
 
 #endregion
 
 ############################################################
-export initialize = ->
-    log "initialize"
-    return
-
-############################################################
 export prepareAndExpose = ->
-    log "prepareAndExpose"
-    sciBase.prepareAndExpose(handlers.authenticate, routes)
+    log "scimodule.prepareAndExpose"
+    restRoutes = Object.assign({}, authenticationRoutes)
+    restRoutes = Object.assign(restRoutes, observerRoutes)
+        
+    # wsi.mountWSFunctions()
+    sciBase.prepareAndExpose(null, restRoutes)
+    sciBase.onWebsocketConnect("/", wsi.onConnect)
+    
     return
