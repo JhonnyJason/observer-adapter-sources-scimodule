@@ -4,7 +4,6 @@ import { createLogFunctions } from "thingy-debug"
 {log, olog} = createLogFunctions("scimodule")
 #endregion
 
-
 ############################################################
 import net from 'net'
 
@@ -45,71 +44,15 @@ Server.listen = ->
 
 ############################################################
 import express from 'express'
+import { handleRPC } from "./thingyrpcmodule.js"
 
 ############################################################
 app = express()
-
-
-
-
-#################################################################
-mountMiddleWare = (middleWare) ->
-    if typeof middleWare ==  "function"
-        app.use middleWare
-        return
-    if middleWare.length?
-        app.use fun for fun in middleWare
-        return
-    return
+app.set("trust proxy", 1)
 
 ############################################################
-attachSCIFunctions = ->
-    app.post("/"+route,fun) for route,fun of routes
+export prepareAndExpose = ->
+    app.post("/thingy-rpc", handleRPC)
+    ## TODO handle regular SCI calls / maybe...
+    app.listen "systemd"
     return
-
-#################################################################
-listenForRequests = ->
-    if process.env.SOCKETMODE then app.listen "systemd"
-    else app.listen port
-    return
-
-############################################################
-export setProxyTrust = (arg) ->
-    app.set("trust proxy", arg)
-    return
-
-############################################################
-export prepareAndExpose = (middleWare, leRoutes, lePort = 3333) ->
-    throw new Error("No routes Object provided!") unless typeof leRoutes == "object"
-    
-    routes = leRoutes
-    port = process.env.PORT || lePort
-
-    if middleWare? then mountMiddleWare(middleWare)
-
-    attachSCIFunctions()
-    listenForRequests()
-    return
-    
-# ############################################################
-# #region modules from the Environment
-# import * as sciBase from "thingy-sci-ws-base"
-# import * as wsi from "./wsimodule.js"
-
-# ############################################################
-# import * as authenticationRoutes from "./authenticationroutes.js"
-# import * as observerRoutes from "./observerroutes.js"
-
-# #endregion
-
-# ############################################################
-# export prepareAndExpose = ->
-#     log "scimodule.prepareAndExpose"
-#     restRoutes = Object.assign({}, authenticationRoutes)
-#     restRoutes = Object.assign(restRoutes, observerRoutes)
-        
-#     # wsi.mountWSFunctions()
-#     sciBase.prepareAndExpose(null, restRoutes)
-#     sciBase.onWebsocketConnect("/", wsi.onConnect)
-    
-#     return
