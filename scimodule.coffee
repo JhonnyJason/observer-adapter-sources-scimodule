@@ -44,15 +44,42 @@ Server.listen = ->
 
 ############################################################
 import express from 'express'
-import { handleRPC } from "./thingyrpcmodule.js"
+import bodyParser from 'body-parser'
+import expressWs from 'express-ws'
+
+
+############################################################
+# import * as notificationHandler from "./notificationmodule.js"
+# import * as seatManager from "./seatmanagermodule.js"
+import * as authenticationOptions from "./authenticationrpcoptions.js"
+import * as rpc from "./thingyrpcmodule.js"
 
 ############################################################
 app = express()
 app.set("trust proxy", 1)
+WS = expressWs(app)
+# app = expressWs(app)
+
+app.use bodyParser.urlencoded(extended: false)
+app.use bodyParser.json()
+
 
 ############################################################
 export prepareAndExpose = ->
-    app.post("/thingy-rpc", handleRPC)
+
+    rpcOptions = new Map()
+    for func,options of authenticationOptions
+        rpcOptions.set(func, options)
+    # for func,options of observerOptions
+    #     rpcOptions.set(func, options)
+
+    rpc.setRPCOptions(rpcOptions)
+    # rpc.setSeatManagement(seatManager)
+    # rpc.setNotificationHandler(notificationHandler)
+
+    app.post("/thingy-rpc-rest", rpc.handleRESTRequest)
+    app.ws("/thingy-rpc-socket", rpc.handleWSConnect)
+
     ## TODO handle regular SCI calls / maybe...
     app.listen "systemd"
     return
