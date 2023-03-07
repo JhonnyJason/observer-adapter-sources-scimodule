@@ -52,6 +52,7 @@ import expressWs from 'express-ws'
 # import * as notificationHandler from "./notificationmodule.js"
 # import * as seatManager from "./seatmanagermodule.js"
 import * as authenticationOptions from "./authenticationrpcoptions.js"
+import * as testOptions from "./rpctesteroptions.js"
 import * as rpc from "./thingyrpcmodule.js"
 
 ############################################################
@@ -68,7 +69,9 @@ app.use bodyParser.json()
 export prepareAndExpose = ->
 
     rpcOptions = new Map()
-    for func,options of authenticationOptions
+    # for func,options of authenticationOptions
+    #     rpcOptions.set(func, options)
+    for func,options of testOptions
         rpcOptions.set(func, options)
     # for func,options of observerOptions
     #     rpcOptions.set(func, options)
@@ -77,7 +80,7 @@ export prepareAndExpose = ->
     # rpc.setSeatManagement(seatManager)
     # rpc.setNotificationHandler(notificationHandler)
 
-    app.post("/thingy-rpc-rest", rpc.handleRESTRequest)
+    app.post("/thingy-post-rpc", rpc.handlePostRequest)
     app.ws("/thingy-rpc-socket", rpc.handleWSConnect)
 
     ## TODO handle regular SCI calls / maybe...
