@@ -69,8 +69,8 @@ app.use bodyParser.json()
 export prepareAndExpose = ->
 
     rpcOptions = new Map()
-    # for func,options of authenticationOptions
-    #     rpcOptions.set(func, options)
+    for func,options of authenticationOptions
+        rpcOptions.set(func, options)
     for func,options of testOptions
         rpcOptions.set(func, options)
     # for func,options of observerOptions
