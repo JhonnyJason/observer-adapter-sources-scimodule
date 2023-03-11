@@ -61,8 +61,8 @@ app.set("trust proxy", 1)
 WS = expressWs(app)
 # app = expressWs(app)
 
-app.use bodyParser.urlencoded(extended: false)
-app.use bodyParser.json()
+app.use bodyParser.urlencoded({extended: false, limit: '16mb'})
+app.use bodyParser.json({limit: '16mb'})
 
 
 ############################################################
