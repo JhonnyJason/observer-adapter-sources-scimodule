@@ -58,6 +58,8 @@ import * as rpc from "./thingyrpcmodule.js"
 ############################################################
 app = express()
 app.set("trust proxy", 1)
+app.disable("etag")
+
 WS = expressWs(app)
 # app = expressWs(app)
 
