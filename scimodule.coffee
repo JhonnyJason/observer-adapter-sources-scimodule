@@ -69,6 +69,7 @@ app.use bodyParser.json({limit: '16mb'})
 
 ############################################################
 export prepareAndExpose = ->
+    log "prepareAndExpose"
 
     rpcOptions = new Map()
     for func,options of authenticationOptions
@@ -83,8 +84,8 @@ export prepareAndExpose = ->
     # rpc.setNotificationHandler(notificationHandler)
 
     app.post("/thingy-post-rpc", rpc.handlePostRequest)
-    app.ws("/thingy-rpc-socket", rpc.handleWSConnect)
+    app.ws("/thingy-ws-rpc", rpc.handleWSConnect)
 
-    ## TODO handle regular SCI calls / maybe...
+    ## TODO handle regular SCI calls (maybe)
     app.listen "systemd"
     return
