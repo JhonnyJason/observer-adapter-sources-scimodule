@@ -63,7 +63,7 @@ app.disable("etag")
 WS = expressWs(app)
 # app = expressWs(app)
 
-app.use bodyParser.urlencoded({extended: false, limit: '16mb'})
+# app.use bodyParser.urlencoded({extended: false, limit: '16mb'})
 app.use bodyParser.json({limit: '16mb'})
 
 
@@ -88,4 +88,5 @@ export prepareAndExpose = ->
 
     ## TODO handle regular SCI calls (maybe)
     app.listen "systemd"
+    # app.listen "6969"
     return
